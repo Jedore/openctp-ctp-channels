@@ -1,9 +1,5 @@
-# openctp-ctp.tools
+# openctp-ctp.channels
 
-openctp-ctp 工具
-
-- [ ] 行情API示例
-- [ ] 交易API示例
 - [ ] 自动更换多通道动态库
     - [ ] TTS
     - [ ] 中泰XTP
