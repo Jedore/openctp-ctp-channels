@@ -1,0 +1,68 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "openctp-ctp-channels"
+dynamic = ["version"]
+description = 'Multi channels support for openctp-ctp'
+readme = "README.md"
+requires-python = ">=3.7"
+license = "BSD-3-Clause"
+keywords = []
+authors = [
+    { name = "Jedore", email = "jedorefight@gmail.com" },
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: Implementation :: CPython",
+    "Programming Language :: Python :: Implementation :: PyPy",
+]
+dependencies = []
+
+[project.urls]
+Documentation = "https://github.com/Jedore/openctp-ctp.channels#readme"
+Issues = "https://github.com/Jedore/openctp-ctp.channels/issues"
+Source = "https://github.com/Jedore/openctp-ctp.channels"
+
+[project.scripts]
+openctp-ctp-channels = "openctp_ctp_channels.cli:main"
+
+[tool.hatch.version]
+path = "src/openctp_ctp_channels/__about__.py"
+
+[tool.hatch.envs.types]
+extra-dependencies = [
+    "mypy>=1.0.0",
+]
+[tool.hatch.envs.types.scripts]
+check = "mypy --install-types --non-interactive {args:src/openctp_ctp_channels tests}"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/openctp_ctp_channels"]
+
+[tool.coverage.run]
+source_pkgs = ["openctp_ctp_channels", "tests"]
+branch = true
+parallel = true
+omit = [
+    "src/openctp_ctp_channels/__about__.py",
+]
+
+[tool.coverage.paths]
+openctp_ctp_channels = ["src/openctp_ctp_channels", "*/openctp-ctp-channels/src/openctp_ctp_channels"]
+tests = ["tests", "*/openctp-ctp-channels/tests"]
+
+[tool.coverage.report]
+exclude_lines = [
+    "no cov",
+    "if __name__ == .__main__.:",
+    "if TYPE_CHECKING:",
+]

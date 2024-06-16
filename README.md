@@ -1,7 +1,11 @@
-# openctp-ctp.channels
+# openctp-ctp-channels
+
+## 快速使用
+
+## 支持通道
 
 - [ ] 自动更换多通道动态库
-    - [ ] TTS
+    - [x] TTS
     - [ ] 中泰XTP
     - [ ] 华鑫TORA
     - [ ] 易盛
@@ -10,4 +14,3 @@
     - [ ] 腾讯财经
     - [ ] 东方证券OST
     - [ ] 量投QDP
-- [ ] 各通道示例
