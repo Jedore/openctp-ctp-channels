@@ -1,13 +1,16 @@
 import abc
+import os
 import pathlib
 import re
+import shutil
+import stat
 import sys
 from hashlib import md5
 
 import openctp_ctp
 import requests
 
-CHANNELS = ('tts',)
+CHANNELS = ('ctp', 'tts',)
 
 BASE_DIR = pathlib.Path(__file__).parent
 
@@ -28,6 +31,9 @@ class Channel(abc.ABC):
         self._channel_dir = pathlib.Path()
         self._tmp_dir = BASE_DIR / '_tmp'
         self.check_tmp_dir()
+
+        pkg_path = pathlib.Path(openctp_ctp.__file__)
+        self._lib_path = pkg_path.parent.parent / 'openctp_ctp.libs'
 
     @property
     def channel(self):
@@ -70,7 +76,7 @@ class Channel(abc.ABC):
             return
 
         url = self._platform_url + name
-        print('Download:', url)
+        print('Downloading', name)
         rsp = requests.get(url)
         if 200 != rsp.status_code:
             raise Exception(f'Download {name} failed: '
@@ -111,9 +117,62 @@ class Channel(abc.ABC):
         self._version_url = self._channel_url + '/' + self._ctp_version
         self._platform_url = self._version_url + '/' + self._platform + '/'
 
+    def backup(self):
+        lib_names = []
+        for _, _, filenames in os.walk(self._tmp_dir):
+            for filename in filenames:
+                if not filename.startswith('thost'):
+                    continue
+                lib_names.append(filename)
+
+        if len(lib_names) == 2:
+            print("Already backup dll.")
+            return lib_names
+
+        print("Backup dll.")
+
+        for _, _, filenames in os.walk(self._lib_path):
+            for filename in filenames:
+                if not filename.startswith('thost'):
+                    continue
+
+                lib_names.append(filename)
+                dst = self._tmp_dir / filename
+                shutil.move(self._lib_path / filename, dst)
+
+        return lib_names
+
     @abc.abstractmethod
-    def needed_lib_urls(self):
+    def switch(self):
         raise NotImplementedError()
+
+
+class CTPChannel(Channel):
+    def __init__(self):
+        super().__init__()
+
+        self._channel = 'CTP'
+        # self._channel_dir = BASE_DIR / f'_{self._channel}'
+
+    def switch(self):
+        print(f'Switch to {self._channel} channel.')
+        # for _, _, filenames in os.walk(self._lib_path):
+        #     for filename in filenames:
+        #         if not filename.startswith('thost'):
+        #             continue
+        #
+        #         os.remove(self._lib_path / filename)
+
+        for _, _, filenames in os.walk(self._tmp_dir):
+            for filename in filenames:
+                if not filename.startswith('thost'):
+                    continue
+
+                src = self._tmp_dir / filename
+                dst = self._lib_path / filename
+                # os.chmod(dst, 0o755)
+                # print(os.lstat(dst))
+                shutil.copyfile(src, dst)
 
 
 class TTSChannel(Channel):
@@ -122,14 +181,30 @@ class TTSChannel(Channel):
         super().__init__()
 
         self._channel = 'tts'
-        self._channel_dir = BASE_DIR / '_tts'
+        self._channel_dir = BASE_DIR / f'_{self._channel}'
 
-    def needed_lib_urls(self):
-        libs = {
-            'win32': ''
-        }
+    def switch(self):
+        print(f'Switch to {self._channel} channel.')
+
+        lib_names = self.backup()
+
+        lib_dict = {}
+        for lib_name in lib_names:
+            s1, s2 = lib_name.split('-')
+            s3, s4 = s2.split('.')
+            lib_dict[f'{s1}.{s4}'] = lib_name
+
+        for _, _, filenames in os.walk(self._channel_dir):
+            for filename in filenames:
+                if not filename.startswith('thost'):
+                    continue
+
+                dst = self._lib_path / lib_dict[filename]
+                # os.chmod(dst, stat.S_IREAD | stat.S_IWUSR)
+                shutil.copyfile(self._channel_dir / filename, dst)
 
 
 if __name__ == '__main__':
     c = TTSChannel()
     c.download()
+    c.switch()

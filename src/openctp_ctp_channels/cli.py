@@ -15,7 +15,16 @@ def check():
 @click.command(help="Switch channel.")
 @click.argument("channel")
 def switch(channel):
-    ...
+    # bak
+    # replace
+    # todo
+    if 'tts' == channel:
+        channel = channels.TTSChannel()
+        channel.download()
+        channel.switch()
+    elif 'ctp' == channel:
+        channel = channels.CTPChannel()
+        channel.switch()
 
 
 @click.command('channels', help="Show supported channels.")
