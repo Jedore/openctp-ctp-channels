@@ -79,8 +79,7 @@ class Channel(abc.ABC):
         print('Downloading', name)
         rsp = requests.get(url)
         if 200 != rsp.status_code:
-            raise Exception(f'Download {name} failed: '
-                            f'{rsp.status_code} {rsp.text}')
+            raise Exception(f'Download {name} failed: {rsp.status_code} {rsp.text}')
         # check md5
         if md5_string != md5(rsp.content).hexdigest():
             raise Exception('md5 check failed')
@@ -92,15 +91,23 @@ class Channel(abc.ABC):
     def download_libs(self):
         rsp = requests.get(self._platform_url)
         if 200 != rsp.status_code:
-            raise Exception(f'Parse libs failed: '
-                            f'{rsp.status_code} {rsp.text}')
+            raise Exception(f'Parse libs failed: {rsp.status_code} {rsp.text}')
 
         text = rsp.text
         for line in text.split('\n'):
             if 'class="lib"' not in line:
                 continue
 
-            ret = re.match(r'^.*>(.+\.dll)</a> +(\w+)$', line)
+            if self._platform.startswith('win'):
+                ret = re.match(r'^.*>(.+\.dll)</a> +(\w+)$', line)
+            elif self._platform.startswith('linux'):
+                ret = re.match(r'^.*>(.+\.so)</a> +(\w+)$', line)
+            elif self._platform.startswith('darwin'):
+                # todo
+                pass
+            else:
+                raise Exception(f'Unsupported platform: {self._platform}')
+
             name = ret.group(1)
             md5_string = ret.group(2)
             self.download_lib(name, md5_string)
@@ -121,7 +128,7 @@ class Channel(abc.ABC):
         lib_names = []
         for _, _, filenames in os.walk(self._tmp_dir):
             for filename in filenames:
-                if not filename.startswith('thost'):
+                if not filename.startswith('thost') or not filename.startswith('libthost'):
                     continue
                 lib_names.append(filename)
 
@@ -133,7 +140,7 @@ class Channel(abc.ABC):
 
         for _, _, filenames in os.walk(self._lib_path):
             for filename in filenames:
-                if not filename.startswith('thost'):
+                if not filename.startswith('thost') or not filename.startswith('libthost'):
                     continue
 
                 lib_names.append(filename)
@@ -165,7 +172,7 @@ class CTPChannel(Channel):
 
         for _, _, filenames in os.walk(self._tmp_dir):
             for filename in filenames:
-                if not filename.startswith('thost'):
+                if not filename.startswith('thost') or not filename.startswith('libthost'):
                     continue
 
                 src = self._tmp_dir / filename
@@ -196,12 +203,14 @@ class TTSChannel(Channel):
 
         for _, _, filenames in os.walk(self._channel_dir):
             for filename in filenames:
-                if not filename.startswith('thost'):
+                if not filename.startswith('thost') or not filename.startswith('libthost'):
                     continue
 
                 dst = self._lib_path / lib_dict[filename]
                 # os.chmod(dst, stat.S_IREAD | stat.S_IWUSR)
                 shutil.copyfile(self._channel_dir / filename, dst)
+
+        print('Switch over')
 
 
 if __name__ == '__main__':
