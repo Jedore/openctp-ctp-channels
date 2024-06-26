@@ -128,24 +128,22 @@ class Channel(abc.ABC):
         lib_names = []
         for _, _, filenames in os.walk(self._tmp_dir):
             for filename in filenames:
-                if not filename.startswith('thost') or not filename.startswith('libthost'):
+                if not filename.startswith('thost') and not filename.startswith('libthost'):
                     continue
                 lib_names.append(filename)
 
         if len(lib_names) == 2:
-            print("Already backup dll.")
-            return lib_names
+            print("Already backup", lib_names)
+        else:
+            for _, _, filenames in os.walk(self._lib_path):
+                for filename in filenames:
+                    if not filename.startswith('thost') and not filename.startswith('libthost'):
+                        continue
 
-        print("Backup dll.")
-
-        for _, _, filenames in os.walk(self._lib_path):
-            for filename in filenames:
-                if not filename.startswith('thost') or not filename.startswith('libthost'):
-                    continue
-
-                lib_names.append(filename)
-                dst = self._tmp_dir / filename
-                shutil.move(self._lib_path / filename, dst)
+                    lib_names.append(filename)
+                    dst = self._tmp_dir / filename
+                    shutil.move(self._lib_path / filename, dst)
+            print("Backup", lib_names)
 
         return lib_names
 
@@ -172,13 +170,15 @@ class CTPChannel(Channel):
 
         for _, _, filenames in os.walk(self._tmp_dir):
             for filename in filenames:
-                if not filename.startswith('thost') or not filename.startswith('libthost'):
+                if not filename.startswith('thost') and not filename.startswith('libthost'):
                     continue
 
                 src = self._tmp_dir / filename
                 dst = self._lib_path / filename
                 # os.chmod(dst, 0o755)
                 # print(os.lstat(dst))
+                if os.path.exists(dst):
+                    os.remove(dst)
                 shutil.copyfile(src, dst)
 
 
@@ -203,11 +203,13 @@ class TTSChannel(Channel):
 
         for _, _, filenames in os.walk(self._channel_dir):
             for filename in filenames:
-                if not filename.startswith('thost') or not filename.startswith('libthost'):
+                if not filename.startswith('thost') and not filename.startswith('libthost'):
                     continue
 
                 dst = self._lib_path / lib_dict[filename]
                 # os.chmod(dst, stat.S_IREAD | stat.S_IWUSR)
+                if os.path.exists(dst):
+                    os.remove(dst)
                 shutil.copyfile(self._channel_dir / filename, dst)
 
         print('Switch over')
