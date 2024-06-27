@@ -4,20 +4,18 @@ from openctp_ctp_channels import channels
 
 @click.group()
 def main():
-    ...
+    pass
 
 
 @click.command(help="Check channel info.")
 def check():
-    ...
+    channel = channels.CTPChannel()
+    print('Current channel:', channel.current_channel())
 
 
 @click.command(help="Switch channel.")
 @click.argument("channel")
 def switch(channel):
-    # bak
-    # replace
-    # todo
     if 'tts' == channel:
         channel = channels.TTSChannel()
         channel.download()
