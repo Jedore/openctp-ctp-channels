@@ -1,4 +1,5 @@
 import abc
+import json
 import os
 import re
 import shutil
@@ -9,22 +10,28 @@ from pathlib import Path
 
 import requests
 
-CHANNELS = ('ctp', 'tts',)
+CHANNELS = {
+    'ctp': '官方实现',
+    'tts': 'openctp TTS',
+    'qq': '腾讯财经',
+    'sina': '新浪财经',
+}
 
 BASE_DIR = Path(__file__).parent
 
 
 class Channel(abc.ABC):
 
-    def __init__(self):
-        self._channel = ''
+    def __init__(self, channel: str):
+        self._channel = channel
+        self._channel_dir = BASE_DIR / f'_chan_{self._channel}'
+
         self._base_url = 'https://ctp-channels.jedore.top'
         self._channel_url = ''
         self._version_url = ''
         self._platform_url = ''
 
-        self._channel_dir = Path()
-        self._ctp_dir = BASE_DIR / '_ctp'
+        self._ctp_dir = BASE_DIR / '_chan_ctp'
         self.check_ctp_dir()
 
         self._openctp_version = self._get_openctp_ctp_version()
@@ -32,9 +39,32 @@ class Channel(abc.ABC):
         self._platform = self._get_platform()
         self._ctp_lib_path = self._get_openctp_ctp_lib_path()
 
+        self._record_file = BASE_DIR / '_record.json'
+        self._record = self._read_record() or {}
+
+        self._check_version()
+
     @property
     def channel(self):
         return self._channel
+
+    def _read_record(self):
+        if not self._record_file.exists():
+            return
+        with open(self._record_file, 'r', encoding='utf-8') as f:
+            return json.load(f)
+
+    def _write_record(self):
+        with open(self._record_file, 'w', encoding='utf-8') as f:
+            json.dump(self._record, f, ensure_ascii=False)
+
+    def _check_version(self):
+        if self._record and self._record.get('ctp_version') == self._ctp_version:
+            return
+
+        self._delete_channel_dirs()
+        self._record['ctp_version'] = self._ctp_version
+        self._write_record()
 
     @staticmethod
     def _get_openctp_ctp_version():
@@ -103,7 +133,10 @@ class Channel(abc.ABC):
 
     def _download_libs(self):
         rsp = requests.get(self._platform_url)
-        if 200 != rsp.status_code:
+        if 404 == rsp.status_code:
+            print(f'Channel {self._channel} don\'t support  {self._ctp_version} on {self._platform}. Please reselect!')
+            exit(0)
+        elif 200 != rsp.status_code:
             raise Exception(f'Parse libs failed: {rsp.status_code} {rsp.text}')
 
         text = rsp.text
@@ -125,7 +158,7 @@ class Channel(abc.ABC):
             md5_string = ret.group(2)
             self.download_lib(name, md5_string)
 
-    def download(self):
+    def _download(self):
         self._generate_url()
         self._check_channel_dir()
         self._download_libs()
@@ -180,40 +213,66 @@ class Channel(abc.ABC):
     def switch(self):
         raise NotImplementedError()
 
-    @abc.abstractmethod
-    def _copy_libs(self):
-        raise NotImplementedError()
+    @staticmethod
+    def _channel_dirs():
+        dirs = []
+        for dir_path, dir_names, filenames in os.walk(BASE_DIR):
+            if dir_names:
+                for dir_name in dir_names:
+                    dirs.append(BASE_DIR / dir_name)
+        return dirs
+
+    def _delete_channel_dirs(self):
+        for channel_dir in self._channel_dirs():
+            shutil.rmtree(channel_dir, ignore_errors=True)
 
     def current_channel(self):
-        current_md5 = set()
+        current_md5 = ''
         channel = 'ctp'
         for file in os.listdir(self._ctp_lib_path):
-            if self._check_lib_prefix(file):
+            if not file.startswith('thostmduser') and not file.startswith('libthostmduser'):
                 continue
             with open(self._ctp_lib_path / file, 'rb') as f:
-                current_md5.add(md5(f.read()).hexdigest())
+                current_md5 = md5(f.read()).hexdigest()
 
         for dir_path, dir_names, filenames in os.walk(BASE_DIR):
-            tmp_md5 = set()
+            tmp_md5 = ''
             if not dir_names and filenames:
                 for filename in filenames:
-                    if self._check_lib_prefix(filename):
+                    if not filename.startswith('thostmduser') and not filename.startswith('libthostmduser'):
                         continue
                     with open(os.path.join(dir_path, filename), 'rb') as f:
-                        tmp_md5.add(md5(f.read()).hexdigest())
+                        tmp_md5 = md5(f.read()).hexdigest()
                 if tmp_md5 == current_md5:
-                    channel = os.path.basename(dir_path)[1:]
+                    channel = os.path.basename(dir_path)[6:]
                     break
 
         return channel
 
+    def _copy_libs(self):
+        lib_dict = {}
+        for lib_name in self._get_libs():
+            s1, s2 = lib_name.split('-')
+            s3, s4 = s2.split('.')
+            lib_dict[f'{s1}.{s4}'] = lib_name
+
+        for _, _, filenames in os.walk(self._channel_dir):
+            for filename in filenames:
+                if self._check_lib_prefix(filename):
+                    continue
+
+                dst = self._ctp_lib_path / lib_dict[filename]
+
+                if self._platform.startswith('linux'):
+                    if os.path.exists(dst):
+                        os.remove(dst)
+
+                shutil.copyfile(self._channel_dir / filename, dst)
+
 
 class CTPChannel(Channel):
     def __init__(self):
-        super().__init__()
-
-        self._channel = 'ctp'
-        self._channel_dir = BASE_DIR / f'_{self._channel}'
+        super().__init__('ctp')
 
     def _copy_libs(self):
         for _, _, filenames in os.walk(self._channel_dir):
@@ -242,30 +301,7 @@ class CTPChannel(Channel):
 class TTSChannel(Channel):
 
     def __init__(self):
-        super().__init__()
-
-        self._channel = 'tts'
-        self._channel_dir = BASE_DIR / f'_{self._channel}'
-
-    def _copy_libs(self):
-        lib_dict = {}
-        for lib_name in self._get_libs():
-            s1, s2 = lib_name.split('-')
-            s3, s4 = s2.split('.')
-            lib_dict[f'{s1}.{s4}'] = lib_name
-
-        for _, _, filenames in os.walk(self._channel_dir):
-            for filename in filenames:
-                if self._check_lib_prefix(filename):
-                    continue
-
-                dst = self._ctp_lib_path / lib_dict[filename]
-
-                if self._platform.startswith('linux'):
-                    if os.path.exists(dst):
-                        os.remove(dst)
-
-                shutil.copyfile(self._channel_dir / filename, dst)
+        super().__init__('tts')
 
     def switch(self):
         if self.current_channel() == self._channel:
@@ -274,11 +310,46 @@ class TTSChannel(Channel):
 
         print(f'Switch to {self._channel} channel.')
 
+        self._download()
+        self._backup()
+        self._copy_libs()
+
+
+class QQChannel(Channel):
+
+    def __init__(self):
+        super().__init__('qq')
+
+    def switch(self):
+        if self.current_channel() == self._channel:
+            print('Current channel is', self._channel)
+            return
+
+        print(f'Switch to {self._channel} channel.')
+
+        self._download()
+        self._backup()
+        self._copy_libs()
+
+
+class SinaChannel(Channel):
+
+    def __init__(self):
+        super().__init__('sina')
+
+    def switch(self):
+        if self.current_channel() == self._channel:
+            print('Current channel is', self._channel)
+            return
+
+        print(f'Switch to {self._channel} channel.')
+
+        self._download()
         self._backup()
         self._copy_libs()
 
 
 if __name__ == '__main__':
-    c = TTSChannel()
-    c.download()
-    c.switch()
+    # c = TTSChannel()
+    # c.switch()
+    pass

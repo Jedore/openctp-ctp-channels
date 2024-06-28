@@ -23,9 +23,11 @@ classifiers = [
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: Implementation :: CPython",
-    "Programming Language :: Python :: Implementation :: PyPy",
 ]
-dependencies = []
+dependencies = [
+    "openctp-ctp",
+    "requests",
+]
 
 [project.urls]
 Documentation = "https://github.com/Jedore/openctp-ctp.channels#readme"
@@ -33,7 +35,7 @@ Issues = "https://github.com/Jedore/openctp-ctp.channels/issues"
 Source = "https://github.com/Jedore/openctp-ctp.channels"
 
 [project.scripts]
-openctp-ctp-channels = "openctp_ctp_channels.cli:main"
+openctp-channels = "openctp_ctp_channels.cli:main"
 
 [tool.hatch.version]
 path = "src/openctp_ctp_channels/__about__.py"
@@ -45,8 +47,23 @@ extra-dependencies = [
 [tool.hatch.envs.types.scripts]
 check = "mypy --install-types --non-interactive {args:src/openctp_ctp_channels tests}"
 
+[tool.hatch.build.targets.sdist]
+ignore-vcs = true
+exclude = [
+    "tests",
+    ".idea",
+    ".env",
+    ".gitignore",
+    "_record.json",
+    "_chan*",
+]
+
 [tool.hatch.build.targets.wheel]
 packages = ["src/openctp_ctp_channels"]
+only-packages = true
+exclude = [
+    "_record.json",
+]
 
 [tool.coverage.run]
 source_pkgs = ["openctp_ctp_channels", "tests"]

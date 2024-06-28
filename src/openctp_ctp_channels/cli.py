@@ -7,7 +7,7 @@ def main():
     pass
 
 
-@click.command(help="Check channel info.")
+@click.command(help="Show current channel.")
 def check():
     channel = channels.CTPChannel()
     print('Current channel:', channel.current_channel())
@@ -18,18 +18,19 @@ def check():
 def switch(channel):
     if 'tts' == channel:
         channel = channels.TTSChannel()
-        channel.download()
         channel.switch()
     elif 'ctp' == channel:
         channel = channels.CTPChannel()
         channel.switch()
 
 
-@click.command('channels', help="Show supported channels.")
-def show_channels():
-    print("Support channels:", " | ".join(channels.CHANNELS))
+@click.command(help="Show all channels.")
+def show():
+    print("Support channels:")
+    for channel, name in channels.CHANNELS.items():
+        print(f"\t{channel} - {name}")
 
 
 main.add_command(check)
 main.add_command(switch)
-main.add_command(show_channels)
+main.add_command(show)
