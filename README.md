@@ -45,21 +45,26 @@
   Current channel: tts
   ```
   切换通道 **tts** 成功后，即可使用 openctp-ctp
-  库，来连接 [TTS 环境](http://openctp.cn/report/openctp%A3%A8TTS%A3%A97x24%BB%B7%BE%B3process%BD%BB%D2%D7.html)
+  库连接 [TTS 环境](http://openctp.cn/report/openctp%A3%A8TTS%A3%A97x24%BB%B7%BE%B3process%BD%BB%D2%D7.html)
 
 ## 支持通道
 
 - [x] TTS
 - [x] 新浪财经  
-  只能查询行情，可以交易，详情见 https://github.com/openctp/openctp/blob/master/ctp2Sina/readme.md
+  只能查询行情，不可以交易，详情见 https://github.com/openctp/openctp/blob/master/ctp2Sina/readme.md
 - [x] 腾讯财经  
-  只能查询行情，可以交易，详情见 https://github.com/openctp/openctp/blob/master/ctp2QQ/readme.md
+  只能查询行情，不可以交易，详情见 https://github.com/openctp/openctp/blob/master/ctp2QQ/readme.md
 - [ ] 中泰XTP
 - [ ] 华鑫TORA
 - [ ] 易盛
 - [ ] 易达
 - [ ] 东方证券OST
 - [ ] 量投QDP
+- [ ] 东方财富EMT
+
+## 代码示例
+
+todo...
 
 ## 注意
 
