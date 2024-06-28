@@ -13,7 +13,7 @@
 [openctp](https://github.com/openctp/openctp)
 提供了兼容各大柜台的统一 CTPAPI 兼容接口库，[openctp-ctp](https://github.com/openctp/openctp-ctp-python) 也继承了这个能力。
 
-**openctp-ctp-channels** 简化了手动替换过程，可以快速体验兼容接口，连接不同柜台。
+**openctp-ctp-channels** 简化了替换兼容接口库的过程，可以快速上手体验，连接不同的柜台环境。
 
 ## 快速使用
 
