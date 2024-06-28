@@ -18,10 +18,17 @@ def check():
 def switch(channel):
     if 'tts' == channel:
         channel = channels.TTSChannel()
-        channel.switch()
     elif 'ctp' == channel:
         channel = channels.CTPChannel()
-        channel.switch()
+    elif 'qq' == channel:
+        channel = channels.QQChannel()
+    elif 'sina' == channel:
+        channel = channels.SinaChannel()
+    else:
+        print("Unsupported channel!")
+        return
+
+    channel.switch()
 
 
 @click.command(help="Show all channels.")
