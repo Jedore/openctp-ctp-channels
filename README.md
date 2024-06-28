@@ -6,6 +6,9 @@
     <a href="#"><img src="https://img.shields.io/badge/os-linux_x86_64-white?style=flat-square&logo=linux&logoColor=white&color=rgb(35%2C189%2C204)" /></a>
     <a href="#"><img src="https://flat.badgen.net/badge/python/>=3.7/blue" /></a>
     <a href="#" ><img src="https://flat.badgen.net/badge/license/BSD-3/blue?" /></a>
+    <a href="https://pypi.org/project/openctp-ctp-channels/" >
+      <img src="https://flat.badgen.net/badge/pypi/v0.1.0/blue?" />
+    </a>
 
 </div>
 <br>
