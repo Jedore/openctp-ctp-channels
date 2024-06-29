@@ -1,8 +1,9 @@
 import click
-from openctp_ctp_channels import channels
+from openctp_ctp_channels import channels, __about__
 
 
 @click.group()
+@click.version_option(version=__about__.__version__)
 def main():
     pass
 
