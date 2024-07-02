@@ -54,9 +54,9 @@
 
 - [x] TTS
 - [x] 新浪财经  
-  只能查询行情，不可以交易，详情见 https://github.com/openctp/openctp/blob/master/ctp2Sina/readme.md
+  只能查询行情，不可以交易，[详情见](https://github.com/openctp/openctp/blob/master/ctp2Sina/readme.md)
 - [x] 腾讯财经  
-  只能查询行情，不可以交易，详情见 https://github.com/openctp/openctp/blob/master/ctp2QQ/readme.md
+  只能查询行情，不可以交易，[详情见](https://github.com/openctp/openctp/blob/master/ctp2QQ/readme.md)
 - [ ] 中泰XTP
 - [ ] 华鑫TORA
 - [ ] 易盛
