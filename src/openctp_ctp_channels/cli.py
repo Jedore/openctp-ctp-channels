@@ -25,6 +25,8 @@ def switch(channel):
         channel = channels.QQChannel()
     elif 'sina' == channel:
         channel = channels.SinaChannel()
+    elif 'emt' == channel:
+        channel = channels.EMTChannel()
     else:
         print("Unsupported channel!")
         return

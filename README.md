@@ -28,11 +28,6 @@
 - 展示所有通道
   ```shell
   $ openctp-channels show 
-  Support channels:
-        ctp - 官方实现
-        tts - openctp TTS
-        qq - 腾讯财经
-        sina - 新浪财经
   ```
 - 展示当前通道
   ```shell
@@ -53,17 +48,58 @@
 ## 支持通道
 
 - [x] TTS
+
+  | version | win x86            | win x64            | linux x64          | 
+  |---------|--------------------|--------------------|--------------------|
+  | 6.3.15  | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
+  | 6.3.19  | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
+  | 6.5.1   | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
+  | 6.6.1   | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
+  | 6.6.7   | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
+  | 6.6.9   | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
+  | 6.7.0   | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
+  | 6.7.1   | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
+  | 6.7.2   | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
+
 - [x] 新浪财经  
-  只能查询行情，不可以交易，[详情见](https://github.com/openctp/openctp/blob/master/ctp2Sina/readme.md)
+  只能查询行情，不可以交易，[详情跳转](https://github.com/openctp/openctp/blob/master/ctp2Sina/readme.md)
+
+  | version | win x86            | win x64            | linux x64          | 
+  |---------|--------------------|--------------------|--------------------|
+  | 6.3.15  | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
+  | 6.3.19  | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
+  | 6.5.1   | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
+  | 6.6.1   | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
+  | 6.6.7   | :x:                | :heavy_check_mark: | :x:                |
+  
 - [x] 腾讯财经  
-  只能查询行情，不可以交易，[详情见](https://github.com/openctp/openctp/blob/master/ctp2QQ/readme.md)
+  只能查询行情，不可以交易，[详情跳转](https://github.com/openctp/openctp/blob/master/ctp2QQ/readme.md)
+
+  | version | win x86            | win x64            | linux x64          | 
+  |---------|--------------------|--------------------|--------------------|
+  | 6.3.15  | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
+  | 6.3.19  | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
+  | 6.5.1   | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
+  | 6.6.1   | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
+  | 6.6.7   | :x:                | :heavy_check_mark: | :x:                |
+
 - [ ] 中泰XTP
 - [ ] 华鑫TORA
 - [ ] 易盛
 - [ ] 易达
 - [ ] 东方证券OST
 - [ ] 量投QDP
-- [ ] 东方财富EMT
+- [x] 东方财富EMT
+
+  [详情跳转](https://github.com/openctp/openctp/tree/master/ctp2EMT)
+
+  | version | win x64            | linux x64 | 
+  |---------|--------------------|-----------|
+  | 6.3.15  | :heavy_check_mark: | :x:       |
+  | 6.3.19  | :heavy_check_mark: | :x:       |
+  | 6.5.1   | :heavy_check_mark: | :x:       |
+  | 6.6.1   | :heavy_check_mark: | :x:       |
+  | 6.6.7   | :heavy_check_mark: | :x:       |
 
 ## 代码示例
 

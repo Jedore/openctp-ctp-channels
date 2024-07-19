@@ -1,6 +1,7 @@
 ## 0.1.2
 
 - Add `--version` option
+- Add emt channel.
 
 ## 0.1.1
 
