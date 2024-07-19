@@ -16,7 +16,8 @@ CHANNELS = {
     'qq': '腾讯财经',
     'sina': '新浪财经',
     'emt': '东方财富EMT',
-    'xtp': '中泰XTP',
+    'xtp': '中泰证券XTP',
+    'tora': '华鑫证券奇点TORA',
 }
 
 BASE_DIR = Path(__file__).parent
@@ -408,6 +409,27 @@ class XTPChannel(Channel):
     def _copy_libs(self):
         super()._copy_libs()
         self._copy_files(['xtpquoteapi.dll', 'xtptraderapi.dll'])
+
+
+class ToraChannel(Channel):
+
+    def __init__(self):
+        super().__init__('tora')
+
+    def switch(self):
+        if self.current_channel() == self._channel:
+            print('Current channel is', self._channel)
+            return
+
+        print(f'Switch to {self._channel} channel.')
+
+        self._download()
+        self._backup()
+        self._copy_libs()
+
+    def _copy_libs(self):
+        super()._copy_libs()
+        self._copy_files(['fasttraderapi.dll', 'xfastmdapi.dll'])
 
 
 if __name__ == '__main__':

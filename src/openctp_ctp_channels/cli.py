@@ -29,6 +29,8 @@ def switch(channel):
         channel = channels.EMTChannel()
     elif 'xtp' == channel:
         channel = channels.XTPChannel()
+    elif 'tora' == channel:
+        channel = channels.ToraChannel()
     else:
         print("Unsupported channel!")
         return

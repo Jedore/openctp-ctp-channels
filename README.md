@@ -61,6 +61,19 @@
   | 6.7.1   | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
   | 6.7.2   | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
 
+- [x] 华鑫证券奇点TORA
+  
+  [详情跳转](https://github.com/openctp/openctp/tree/master/ctp2STP)
+  
+  | version | win x86            | win x64            | linux x64          | 
+  |---------|--------------------|--------------------|--------------------|
+  | 6.3.15  | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
+  | 6.3.19  | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
+  | 6.5.1   | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
+  | 6.6.1   | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
+  | 6.6.7   | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
+  | 6.6.9   | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
+
 - [x] 东方财富EMT(emt) 
 
   [详情跳转](https://github.com/openctp/openctp/tree/master/ctp2EMT)
@@ -73,6 +86,14 @@
   | 6.6.1   | :heavy_check_mark: | :x:       |
   | 6.6.7   | :heavy_check_mark: | :x:       |
 
+- [x] 中泰证券XTP(xtp)
+  
+  [详情跳转](https://github.com/openctp/openctp/tree/master/ctp2XTP)
+
+  | version | win x86 | win x64            | linux x64 | 
+  |---------|---------|--------------------|-----------|
+  | 6.6.1   | :x:     | :heavy_check_mark: | :x:       |
+   
 - [x] 新浪财经(sina)  
   只能查询行情，不可以交易，[详情跳转](https://github.com/openctp/openctp/blob/master/ctp2Sina/readme.md)
 
@@ -95,15 +116,6 @@
   | 6.6.1   | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
   | 6.6.7   | :x:                | :heavy_check_mark: | :x:                |
 
-- [x] 中泰XTP(xtp)
-  
-  [详情跳转](https://github.com/openctp/openctp/tree/master/ctp2XTP)
-
-  | version | win x86 | win x64            | linux x64 | 
-  |---------|---------|--------------------|-----------|
-  | 6.6.1   | :x:     | :heavy_check_mark: | :x:       |
-   
-- [ ] 华鑫TORA
 - [ ] 易盛
 - [ ] 易达
 - [ ] 东方证券OST
