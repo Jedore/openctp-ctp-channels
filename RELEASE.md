@@ -1,6 +1,7 @@
 ## 0.1.3
 
-- Fix: qq/sina channels.
+- Fix qq/sina channels.
+- Fix tora channel on linux platform.
 
 ## 0.1.2
 

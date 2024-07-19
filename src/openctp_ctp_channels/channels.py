@@ -409,7 +409,11 @@ class XTPChannel(Channel):
 
     def _copy_libs(self):
         super()._copy_libs()
-        self._copy_files(['xtpquoteapi.dll', 'xtptraderapi.dll'])
+        if sys.platform.startswith('linux'):
+            files = ['libxtpquoteapi.so', 'libxtptraderapi.so']
+        else:
+            files = ['xtpquoteapi.dll', 'xtptraderapi.dll']
+        self._copy_files(files)
 
 
 class ToraChannel(Channel):
@@ -430,7 +434,11 @@ class ToraChannel(Channel):
 
     def _copy_libs(self):
         super()._copy_libs()
-        self._copy_files(['fasttraderapi.dll', 'xfastmdapi.dll'])
+        if sys.platform.startswith('linux'):
+            files = ['libfasttraderapi.so', 'libxfastmdapi.so']
+        else:
+            files = ['fasttraderapi.dll', 'xfastmdapi.dll']
+        self._copy_files(files)
 
 
 if __name__ == '__main__':
