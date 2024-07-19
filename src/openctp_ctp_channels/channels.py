@@ -260,8 +260,9 @@ class Channel(abc.ABC):
                 if not filename.startswith("msvcp140"):
                     os.remove(self._ctp_lib_path / filename)
 
-    def _copy_libs(self):
-        self._del_old_files()
+    def _copy_libs(self, del_old: bool = True):
+        if del_old:
+            self._del_old_files()
 
         lib_dict = {}
         for lib_name in self._get_libs():
@@ -349,7 +350,7 @@ class QQChannel(Channel):
 
         self._download()
         self._backup()
-        self._copy_libs()
+        self._copy_libs(del_old=False)
 
 
 class SinaChannel(Channel):
@@ -366,7 +367,7 @@ class SinaChannel(Channel):
 
         self._download()
         self._backup()
-        self._copy_libs()
+        self._copy_libs(del_old=False)
 
 
 class EMTChannel(Channel):
