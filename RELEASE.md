@@ -1,4 +1,13 @@
+## 0.1.3
+
+2024-07-19
+
+- Fix qq/sina channels.
+- Fix tora channel on linux platform.
+
 ## 0.1.2
+
+2024-07-19
 
 - Add `--version` option
 - Add emt channel.
