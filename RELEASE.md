@@ -1,5 +1,7 @@
 ## 0.1.3
 
+2024-07-19
+
 - Fix qq/sina channels.
 - Fix tora channel on linux platform.
 
