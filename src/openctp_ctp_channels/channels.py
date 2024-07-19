@@ -11,10 +11,13 @@ from pathlib import Path
 import requests
 
 CHANNELS = {
-    'ctp': '官方实现',
+    'ctp': '上期技术',
     'tts': 'openctp TTS',
     'qq': '腾讯财经',
     'sina': '新浪财经',
+    'emt': '东方财富EMT',
+    'xtp': '中泰证券XTP',
+    'tora': '华鑫证券奇点TORA',
 }
 
 BASE_DIR = Path(__file__).parent
@@ -31,9 +34,6 @@ class Channel(abc.ABC):
         self._version_url = ''
         self._platform_url = ''
 
-        self._ctp_dir = BASE_DIR / '_chan_ctp'
-        self.check_ctp_dir()
-
         self._openctp_version = self._get_openctp_ctp_version()
         self._ctp_version = '.'.join(self._openctp_version.split('.')[:3])
         self._platform = self._get_platform()
@@ -43,6 +43,9 @@ class Channel(abc.ABC):
         self._record = self._read_record() or {}
 
         self._check_version()
+
+        self._ctp_dir = BASE_DIR / '_chan_ctp'
+        self.check_ctp_dir()
 
     @property
     def channel(self):
@@ -71,6 +74,8 @@ class Channel(abc.ABC):
         for line in os.popen('pip show openctp-ctp').read().splitlines():
             if 'Version' in line:
                 return line.split()[-1].strip()
+        print("openctp-ctp is not installed. Please install openctp-ctp first!")
+        exit(0)
 
     @staticmethod
     def _get_openctp_ctp_lib_path():
@@ -134,7 +139,7 @@ class Channel(abc.ABC):
     def _download_libs(self):
         rsp = requests.get(self._platform_url)
         if 404 == rsp.status_code:
-            print(f'Channel {self._channel} don\'t support  {self._ctp_version} on {self._platform}. Please reselect!')
+            print(f'Warning: Channel {self._channel} don\'t support  {self._ctp_version} on {self._platform}!')
             exit(0)
         elif 200 != rsp.status_code:
             raise Exception(f'Parse libs failed: {rsp.status_code} {rsp.text}')
@@ -249,7 +254,15 @@ class Channel(abc.ABC):
 
         return channel
 
+    def _del_old_files(self):
+        for _, _, filenames in os.walk(self._ctp_lib_path):
+            for filename in filenames:
+                if not filename.startswith("msvcp140"):
+                    os.remove(self._ctp_lib_path / filename)
+
     def _copy_libs(self):
+        self._del_old_files()
+
         lib_dict = {}
         for lib_name in self._get_libs():
             s1, s2 = lib_name.split('-')
@@ -269,12 +282,19 @@ class Channel(abc.ABC):
 
                 shutil.copyfile(self._channel_dir / filename, dst)
 
+    def _copy_files(self, files: list):
+        for file in files:
+            dst = self._ctp_lib_path / file
+            shutil.copyfile(self._channel_dir / file, dst)
+
 
 class CTPChannel(Channel):
     def __init__(self):
         super().__init__('ctp')
 
     def _copy_libs(self):
+        self._del_old_files()
+
         for _, _, filenames in os.walk(self._channel_dir):
             for filename in filenames:
                 if self._check_lib_prefix(filename):
@@ -347,6 +367,69 @@ class SinaChannel(Channel):
         self._download()
         self._backup()
         self._copy_libs()
+
+
+class EMTChannel(Channel):
+
+    def __init__(self):
+        super().__init__('emt')
+
+    def switch(self):
+        if self.current_channel() == self._channel:
+            print('Current channel is', self._channel)
+            return
+
+        print(f'Switch to {self._channel} channel.')
+
+        self._download()
+        self._backup()
+        self._copy_libs()
+
+    def _copy_libs(self):
+        super()._copy_libs()
+        self._copy_files(['emt_api.dll', 'emt_quote_api.dll'])
+
+
+class XTPChannel(Channel):
+
+    def __init__(self):
+        super().__init__('xtp')
+
+    def switch(self):
+        if self.current_channel() == self._channel:
+            print('Current channel is', self._channel)
+            return
+
+        print(f'Switch to {self._channel} channel.')
+
+        self._download()
+        self._backup()
+        self._copy_libs()
+
+    def _copy_libs(self):
+        super()._copy_libs()
+        self._copy_files(['xtpquoteapi.dll', 'xtptraderapi.dll'])
+
+
+class ToraChannel(Channel):
+
+    def __init__(self):
+        super().__init__('tora')
+
+    def switch(self):
+        if self.current_channel() == self._channel:
+            print('Current channel is', self._channel)
+            return
+
+        print(f'Switch to {self._channel} channel.')
+
+        self._download()
+        self._backup()
+        self._copy_libs()
+
+    def _copy_libs(self):
+        super()._copy_libs()
+        self._copy_files(['fasttraderapi.dll', 'xfastmdapi.dll'])
 
 
 if __name__ == '__main__':

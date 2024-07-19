@@ -1,8 +1,9 @@
 import click
-from openctp_ctp_channels import channels
+from openctp_ctp_channels import channels, __about__
 
 
 @click.group()
+@click.version_option(version=__about__.__version__)
 def main():
     pass
 
@@ -24,6 +25,12 @@ def switch(channel):
         channel = channels.QQChannel()
     elif 'sina' == channel:
         channel = channels.SinaChannel()
+    elif 'emt' == channel:
+        channel = channels.EMTChannel()
+    elif 'xtp' == channel:
+        channel = channels.XTPChannel()
+    elif 'tora' == channel:
+        channel = channels.ToraChannel()
     else:
         print("Unsupported channel!")
         return

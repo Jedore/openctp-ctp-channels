@@ -1,3 +1,10 @@
+## 0.1.2
+
+- Add `--version` option
+- Add emt channel.
+- Add xtp channel.
+- Add tora channel.
+
 ## 0.1.1
 
 2024-06-28
