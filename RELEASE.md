@@ -2,6 +2,7 @@
 
 - Add `--version` option
 - Add emt channel.
+- Add xtp channel.
 
 ## 0.1.1
 

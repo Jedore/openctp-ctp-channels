@@ -16,6 +16,7 @@ CHANNELS = {
     'qq': '腾讯财经',
     'sina': '新浪财经',
     'emt': '东方财富EMT',
+    'xtp': '中泰XTP',
 }
 
 BASE_DIR = Path(__file__).parent
@@ -383,23 +384,30 @@ class EMTChannel(Channel):
         self._backup()
         self._copy_libs()
 
-    def _download(self):
-        super()._download()
+    def _copy_libs(self):
+        super()._copy_libs()
+        self._copy_files(['emt_api.dll', 'emt_quote_api.dll'])
 
-        dict_file = 'dict.csv'
-        url = self._channel_url + '/' + dict_file
-        rsp = requests.get(url)
-        if 200 != rsp.status_code:
-            raise Exception(f'Download {dict_file} failed: {rsp.status_code} {rsp.text}')
 
-        # save file
-        file = self._channel_dir / dict_file
-        with open(file, 'wb') as f:
-            f.write(rsp.content)
+class XTPChannel(Channel):
+
+    def __init__(self):
+        super().__init__('xtp')
+
+    def switch(self):
+        if self.current_channel() == self._channel:
+            print('Current channel is', self._channel)
+            return
+
+        print(f'Switch to {self._channel} channel.')
+
+        self._download()
+        self._backup()
+        self._copy_libs()
 
     def _copy_libs(self):
         super()._copy_libs()
-        self._copy_files(['dict.csv', 'emt_api.dll', 'emt_quote_api.dll'])
+        self._copy_files(['xtpquoteapi.dll', 'xtptraderapi.dll'])
 
 
 if __name__ == '__main__':

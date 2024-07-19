@@ -27,6 +27,8 @@ def switch(channel):
         channel = channels.SinaChannel()
     elif 'emt' == channel:
         channel = channels.EMTChannel()
+    elif 'xtp' == channel:
+        channel = channels.XTPChannel()
     else:
         print("Unsupported channel!")
         return
