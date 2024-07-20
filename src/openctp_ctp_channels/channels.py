@@ -214,9 +214,21 @@ class Channel(abc.ABC):
 
         return tuple(lib_names)
 
-    @abc.abstractmethod
-    def switch(self):
-        raise NotImplementedError()
+    def switch(self, del_old: bool = True):
+        if self.current_channel() == self._channel:
+            print(f'Current channel is [ {self._channel} ]')
+            return
+
+        print(f'Switch to [ {self._channel} ]')
+
+        try:
+            self._download()
+            self._backup()
+            self._copy_libs(del_old=del_old)
+        except Exception as e:
+            print('Failed!', e)
+        else:
+            print('Succeeded!')
 
     @staticmethod
     def _channel_dirs():
@@ -311,13 +323,14 @@ class CTPChannel(Channel):
 
                 shutil.copyfile(src, dst)
 
-    def switch(self):
+    def switch(self, del_old: bool = True):
         if self.current_channel() == self._channel:
-            print('Current channel is', self._channel)
+            print(f'Current channel is [ {self._channel} ]')
             return
 
-        print(f'Switch to {self._channel} channel.')
-        self._copy_libs()
+        print(f'Switch to [ {self._channel} ]')
+        self._copy_libs(del_old=del_old)
+        print('Succeeded!')
 
 
 class TTSChannel(Channel):
@@ -325,33 +338,14 @@ class TTSChannel(Channel):
     def __init__(self):
         super().__init__('tts')
 
-    def switch(self):
-        if self.current_channel() == self._channel:
-            print('Current channel is', self._channel)
-            return
-
-        print(f'Switch to {self._channel} channel.')
-
-        self._download()
-        self._backup()
-        self._copy_libs()
-
 
 class QQChannel(Channel):
 
     def __init__(self):
         super().__init__('qq')
 
-    def switch(self):
-        if self.current_channel() == self._channel:
-            print('Current channel is', self._channel)
-            return
-
-        print(f'Switch to {self._channel} channel.')
-
-        self._download()
-        self._backup()
-        self._copy_libs(del_old=False)
+    def switch(self, del_old: bool = False):
+        super().switch(del_old=del_old)
 
 
 class SinaChannel(Channel):
@@ -359,33 +353,14 @@ class SinaChannel(Channel):
     def __init__(self):
         super().__init__('sina')
 
-    def switch(self):
-        if self.current_channel() == self._channel:
-            print('Current channel is', self._channel)
-            return
-
-        print(f'Switch to {self._channel} channel.')
-
-        self._download()
-        self._backup()
-        self._copy_libs(del_old=False)
+    def switch(self, del_old: bool = False):
+        super().switch(del_old=del_old)
 
 
 class EMTChannel(Channel):
 
     def __init__(self):
         super().__init__('emt')
-
-    def switch(self):
-        if self.current_channel() == self._channel:
-            print('Current channel is', self._channel)
-            return
-
-        print(f'Switch to {self._channel} channel.')
-
-        self._download()
-        self._backup()
-        self._copy_libs()
 
     def _copy_libs(self, del_old: bool = True):
         super()._copy_libs(del_old=del_old)
@@ -396,17 +371,6 @@ class XTPChannel(Channel):
 
     def __init__(self):
         super().__init__('xtp')
-
-    def switch(self):
-        if self.current_channel() == self._channel:
-            print('Current channel is', self._channel)
-            return
-
-        print(f'Switch to {self._channel} channel.')
-
-        self._download()
-        self._backup()
-        self._copy_libs()
 
     def _copy_libs(self, del_old: bool = True):
         super()._copy_libs(del_old=del_old)
@@ -421,17 +385,6 @@ class ToraChannel(Channel):
 
     def __init__(self):
         super().__init__('tora')
-
-    def switch(self):
-        if self.current_channel() == self._channel:
-            print('Current channel is', self._channel)
-            return
-
-        print(f'Switch to {self._channel} channel.')
-
-        self._download()
-        self._backup()
-        self._copy_libs()
 
     def _copy_libs(self, del_old=True):
         super()._copy_libs(del_old=del_old)
