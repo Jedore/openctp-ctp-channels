@@ -47,7 +47,7 @@
 
 ## 支持通道
 
-- [x] TTS(tts) 
+- [x] openctp TTS(tts) 
 
   | version | win x86            | win x64            | linux x64          | 
   |---------|--------------------|--------------------|--------------------|
@@ -61,7 +61,7 @@
   | 6.7.1   | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
   | 6.7.2   | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
 
-- [x] 华鑫证券奇点TORA
+- [x] 华鑫证券奇点股票(tora)
   
   [详情跳转](https://github.com/openctp/openctp/tree/master/ctp2STP)
   
@@ -118,7 +118,6 @@
 
 - [ ] 易盛
 - [ ] 易达
-- [ ] 东方证券OST
 - [ ] 量投QDP
 
 ## 代码示例

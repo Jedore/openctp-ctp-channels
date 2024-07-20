@@ -17,7 +17,7 @@ CHANNELS = {
     'sina': '新浪财经',
     'emt': '东方财富EMT',
     'xtp': '中泰证券XTP',
-    'tora': '华鑫证券奇点TORA',
+    'tora': '华鑫证券奇点股票',
 }
 
 BASE_DIR = Path(__file__).parent
@@ -293,8 +293,9 @@ class CTPChannel(Channel):
     def __init__(self):
         super().__init__('ctp')
 
-    def _copy_libs(self):
-        self._del_old_files()
+    def _copy_libs(self, del_old: bool = True):
+        if del_old:
+            self._del_old_files()
 
         for _, _, filenames in os.walk(self._channel_dir):
             for filename in filenames:
@@ -386,8 +387,8 @@ class EMTChannel(Channel):
         self._backup()
         self._copy_libs()
 
-    def _copy_libs(self):
-        super()._copy_libs()
+    def _copy_libs(self, del_old: bool = True):
+        super()._copy_libs(del_old=del_old)
         self._copy_files(['emt_api.dll', 'emt_quote_api.dll'])
 
 
@@ -407,8 +408,8 @@ class XTPChannel(Channel):
         self._backup()
         self._copy_libs()
 
-    def _copy_libs(self):
-        super()._copy_libs()
+    def _copy_libs(self, del_old: bool = True):
+        super()._copy_libs(del_old=del_old)
         if sys.platform.startswith('linux'):
             files = ['libxtpquoteapi.so', 'libxtptraderapi.so']
         else:
@@ -432,8 +433,8 @@ class ToraChannel(Channel):
         self._backup()
         self._copy_libs()
 
-    def _copy_libs(self):
-        super()._copy_libs()
+    def _copy_libs(self, del_old=True):
+        super()._copy_libs(del_old=del_old)
         if sys.platform.startswith('linux'):
             files = ['libfasttraderapi.so', 'libxfastmdapi.so']
         else:
