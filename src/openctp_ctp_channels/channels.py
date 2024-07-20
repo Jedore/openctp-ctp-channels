@@ -11,13 +11,14 @@ from pathlib import Path
 import requests
 
 CHANNELS = {
-    'ctp': '上期技术',
-    'tts': 'openctp TTS',
-    'qq': '腾讯财经',
-    'sina': '新浪财经',
+    'ctp': '上期技术CTPAPI',
+    'tts': 'openctp TTS 7x24',
+    'tts-s': 'openctp TTS仿真(接实盘行情)',
     'emt': '东方财富EMT',
     'xtp': '中泰证券XTP',
-    'tora': '华鑫证券奇点TORA',
+    'tora': '华鑫证券奇点股票',
+    'qq': '腾讯财经(只有行情)',
+    'sina': '新浪财经(只有行情)',
 }
 
 BASE_DIR = Path(__file__).parent
@@ -46,6 +47,11 @@ class Channel(abc.ABC):
 
         self._ctp_dir = BASE_DIR / '_chan_ctp'
         self.check_ctp_dir()
+
+        # generate url
+        self._channel_url = self._base_url + '/' + self._channel
+        self._version_url = self._channel_url + '/' + self._ctp_version
+        self._platform_url = self._version_url + '/' + self._platform + '/'
 
     @property
     def channel(self):
@@ -164,14 +170,8 @@ class Channel(abc.ABC):
             self.download_lib(name, md5_string)
 
     def _download(self):
-        self._generate_url()
         self._check_channel_dir()
         self._download_libs()
-
-    def _generate_url(self):
-        self._channel_url = self._base_url + '/' + self._channel
-        self._version_url = self._channel_url + '/' + self._ctp_version
-        self._platform_url = self._version_url + '/' + self._platform + '/'
 
     def _backup(self):
         lib_names = []
@@ -214,9 +214,21 @@ class Channel(abc.ABC):
 
         return tuple(lib_names)
 
-    @abc.abstractmethod
-    def switch(self):
-        raise NotImplementedError()
+    def switch(self, del_old: bool = True):
+        if self.current_channel() == self._channel:
+            print(f'Current channel is [ {self._channel} ]')
+            return
+
+        print(f'Switch to [ {self._channel} ]')
+
+        try:
+            self._download()
+            self._backup()
+            self._copy_libs(del_old=del_old)
+        except Exception as e:
+            print('Failed!', e)
+        else:
+            print('Succeeded!')
 
     @staticmethod
     def _channel_dirs():
@@ -232,26 +244,41 @@ class Channel(abc.ABC):
             shutil.rmtree(channel_dir, ignore_errors=True)
 
     def current_channel(self):
-        current_md5 = ''
+        mduser_md5 = ''
+        trader_md5 = ''
         channel = 'ctp'
         for file in os.listdir(self._ctp_lib_path):
-            if not file.startswith('thostmduser') and not file.startswith('libthostmduser'):
-                continue
-            with open(self._ctp_lib_path / file, 'rb') as f:
-                current_md5 = md5(f.read()).hexdigest()
+            if file.startswith('thostmduser') or file.startswith('libthostmduser'):
+                with open(self._ctp_lib_path / file, 'rb') as f:
+                    mduser_md5 = md5(f.read()).hexdigest()
+            elif file.startswith('thosttrader') or file.startswith('libthosttrader'):
+                with open(self._ctp_lib_path / file, 'rb') as f:
+                    trader_md5 = md5(f.read()).hexdigest()
 
         for dir_path, dir_names, filenames in os.walk(BASE_DIR):
-            tmp_md5 = ''
+            tmp_mduser_md5 = ''
+            tmp_trader_md5 = ''
             if not dir_names and filenames:
                 for filename in filenames:
-                    if not filename.startswith('thostmduser') and not filename.startswith('libthostmduser'):
-                        continue
-                    with open(os.path.join(dir_path, filename), 'rb') as f:
-                        tmp_md5 = md5(f.read()).hexdigest()
-                if tmp_md5 == current_md5:
-                    channel = os.path.basename(dir_path)[6:]
-                    break
+                    if filename.startswith('thostmduser') or filename.startswith('libthostmduser'):
+                        with open(os.path.join(dir_path, filename), 'rb') as f:
+                            tmp_mduser_md5 = md5(f.read()).hexdigest()
+                    elif filename.startswith('thosttrader') or filename.startswith('libthosttrader'):
+                        with open(os.path.join(dir_path, filename), 'rb') as f:
+                            tmp_trader_md5 = md5(f.read()).hexdigest()
 
+                if tmp_mduser_md5 == mduser_md5:
+                    channel = os.path.basename(dir_path)[6:]
+                    if not tmp_trader_md5:
+                        # qq / sina
+                        break
+                    elif tmp_trader_md5 == trader_md5:
+                        # ctp / emt / xtp / tora / tts
+                        break
+                    else:
+                        # tts-s simulation
+                        channel = 'tts-s'
+                        break
         return channel
 
     def _del_old_files(self):
@@ -293,8 +320,9 @@ class CTPChannel(Channel):
     def __init__(self):
         super().__init__('ctp')
 
-    def _copy_libs(self):
-        self._del_old_files()
+    def _copy_libs(self, del_old: bool = True):
+        if del_old:
+            self._del_old_files()
 
         for _, _, filenames in os.walk(self._channel_dir):
             for filename in filenames:
@@ -310,13 +338,14 @@ class CTPChannel(Channel):
 
                 shutil.copyfile(src, dst)
 
-    def switch(self):
+    def switch(self, del_old: bool = True):
         if self.current_channel() == self._channel:
-            print('Current channel is', self._channel)
+            print(f'Current channel is [ {self._channel} ]')
             return
 
-        print(f'Switch to {self._channel} channel.')
-        self._copy_libs()
+        print(f'Switch to [ {self._channel} ]')
+        self._copy_libs(del_old=del_old)
+        print('Succeeded!')
 
 
 class TTSChannel(Channel):
@@ -324,16 +353,43 @@ class TTSChannel(Channel):
     def __init__(self):
         super().__init__('tts')
 
-    def switch(self):
-        if self.current_channel() == self._channel:
-            print('Current channel is', self._channel)
-            return
 
-        print(f'Switch to {self._channel} channel.')
+class TTSSimuChannel(Channel):
 
-        self._download()
-        self._backup()
-        self._copy_libs()
+    def __init__(self):
+        super().__init__('tts')
+        self._channel = 'tts-s'
+
+    def switch(self, del_old: bool = True):
+        super().switch(del_old)
+
+    def _copy_libs(self, del_old: bool = True):
+        if del_old:
+            self._del_old_files()
+
+        lib_dict = {}
+        for lib_name in self._get_libs():
+            s1, s2 = lib_name.split('-')
+            s3, s4 = s2.split('.')
+            lib_dict[f'{s1}.{s4}'] = lib_name
+
+        for _, _, filenames in os.walk(self._channel_dir):
+            for filename in filenames:
+                if self._check_lib_prefix(filename):
+                    continue
+
+                dst_name = lib_dict[filename]
+                dst = self._ctp_lib_path / dst_name
+
+                if self._platform.startswith('linux'):
+                    if os.path.exists(dst):
+                        os.remove(dst)
+
+                if 'mduser' in filename:
+                    # copy mduserapi dll/so from ctp
+                    shutil.copyfile(self._ctp_dir / dst_name, dst)
+                else:
+                    shutil.copyfile(self._channel_dir / filename, dst)
 
 
 class QQChannel(Channel):
@@ -341,16 +397,8 @@ class QQChannel(Channel):
     def __init__(self):
         super().__init__('qq')
 
-    def switch(self):
-        if self.current_channel() == self._channel:
-            print('Current channel is', self._channel)
-            return
-
-        print(f'Switch to {self._channel} channel.')
-
-        self._download()
-        self._backup()
-        self._copy_libs(del_old=False)
+    def switch(self, del_old: bool = False):
+        super().switch(del_old=del_old)
 
 
 class SinaChannel(Channel):
@@ -358,16 +406,8 @@ class SinaChannel(Channel):
     def __init__(self):
         super().__init__('sina')
 
-    def switch(self):
-        if self.current_channel() == self._channel:
-            print('Current channel is', self._channel)
-            return
-
-        print(f'Switch to {self._channel} channel.')
-
-        self._download()
-        self._backup()
-        self._copy_libs(del_old=False)
+    def switch(self, del_old: bool = False):
+        super().switch(del_old=del_old)
 
 
 class EMTChannel(Channel):
@@ -375,19 +415,8 @@ class EMTChannel(Channel):
     def __init__(self):
         super().__init__('emt')
 
-    def switch(self):
-        if self.current_channel() == self._channel:
-            print('Current channel is', self._channel)
-            return
-
-        print(f'Switch to {self._channel} channel.')
-
-        self._download()
-        self._backup()
-        self._copy_libs()
-
-    def _copy_libs(self):
-        super()._copy_libs()
+    def _copy_libs(self, del_old: bool = True):
+        super()._copy_libs(del_old=del_old)
         self._copy_files(['emt_api.dll', 'emt_quote_api.dll'])
 
 
@@ -396,19 +425,8 @@ class XTPChannel(Channel):
     def __init__(self):
         super().__init__('xtp')
 
-    def switch(self):
-        if self.current_channel() == self._channel:
-            print('Current channel is', self._channel)
-            return
-
-        print(f'Switch to {self._channel} channel.')
-
-        self._download()
-        self._backup()
-        self._copy_libs()
-
-    def _copy_libs(self):
-        super()._copy_libs()
+    def _copy_libs(self, del_old: bool = True):
+        super()._copy_libs(del_old=del_old)
         if sys.platform.startswith('linux'):
             files = ['libxtpquoteapi.so', 'libxtptraderapi.so']
         else:
@@ -421,19 +439,8 @@ class ToraChannel(Channel):
     def __init__(self):
         super().__init__('tora')
 
-    def switch(self):
-        if self.current_channel() == self._channel:
-            print('Current channel is', self._channel)
-            return
-
-        print(f'Switch to {self._channel} channel.')
-
-        self._download()
-        self._backup()
-        self._copy_libs()
-
-    def _copy_libs(self):
-        super()._copy_libs()
+    def _copy_libs(self, del_old=True):
+        super()._copy_libs(del_old=del_old)
         if sys.platform.startswith('linux'):
             files = ['libfasttraderapi.so', 'libxfastmdapi.so']
         else:

@@ -1,3 +1,9 @@
+## 0.1.4
+
+- Add TTS simulation channel.
+- Optimize func `switch`
+- Optimize func `_copy_libs`
+
 ## 0.1.3
 
 2024-07-19

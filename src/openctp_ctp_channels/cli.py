@@ -19,6 +19,8 @@ def check():
 def switch(channel):
     if 'tts' == channel:
         channel = channels.TTSChannel()
+    elif 'tts-s' == channel:
+        channel = channels.TTSSimuChannel()
     elif 'ctp' == channel:
         channel = channels.CTPChannel()
     elif 'qq' == channel:
