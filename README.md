@@ -43,7 +43,7 @@
   Current channel: tts
   ```
   切换通道 **tts** 成功后，即可使用 openctp-ctp
-  库连接 [TTS 环境](http://openctp.cn/report/openctp%A3%A8TTS%A3%A97x24%BB%B7%BE%B3process%BD%BB%D2%D7.html)
+  库连接 [TTS 7x24环境](http://openctp.cn/report/openctp%A3%A8TTS%A3%A97x24%BB%B7%BE%B3process%BD%BB%D2%D7.html)
 
 ## 支持通道
 
