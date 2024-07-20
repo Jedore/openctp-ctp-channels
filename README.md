@@ -47,10 +47,14 @@
 
 ## 支持通道
 
-- [x] openctp TTS(tts) 
+- [x] openctp TTS(tts/tts-s) 
   
   [详情跳转1](https://github.com/openctp/openctp?tab=readme-ov-file#openctp%E6%A8%A1%E6%8B%9F%E7%8E%AF%E5%A2%83)
   [详情跳转2](https://github.com/openctp/openctp/tree/master/ctp2TTS)
+   
+  TTS仿真环境没有提供行情服务，需要连接实盘行情(连接实盘行情不需要替换dll/so), 因此多了一个 `tts-s` 通道
+  
+  `tts` 通道用于连接 TTS 7x24 环境； `tts-s` 通道用于连接 TTS 仿真环境
 
   | version | win x86            | win x64            | linux x64          | 
   |---------|--------------------|--------------------|--------------------|

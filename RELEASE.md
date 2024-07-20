@@ -1,5 +1,6 @@
 ## 0.1.4
 
+- Add TTS simulation channel.
 - Optimize func `switch`
 - Optimize func `_copy_libs`
 
