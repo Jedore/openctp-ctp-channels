@@ -48,6 +48,9 @@
 ## 支持通道
 
 - [x] openctp TTS(tts) 
+  
+  [详情跳转1](https://github.com/openctp/openctp?tab=readme-ov-file#openctp%E6%A8%A1%E6%8B%9F%E7%8E%AF%E5%A2%83)
+  [详情跳转2](https://github.com/openctp/openctp/tree/master/ctp2TTS)
 
   | version | win x86            | win x64            | linux x64          | 
   |---------|--------------------|--------------------|--------------------|
