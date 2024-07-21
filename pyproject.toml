@@ -26,6 +26,7 @@ classifiers = [
 dependencies = [
     "openctp-ctp",
     "requests",
+    "click",
 ]
 
 [project.urls]
