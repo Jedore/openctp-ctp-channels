@@ -110,7 +110,12 @@
   | 6.3.19  | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
   | 6.5.1   | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
   | 6.6.1   | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
-  | 6.6.7   | :x:                | :heavy_check_mark: | :x:                |
+  | 6.6.7   | :heavy_check_mark: | :heavy_check_mark: | :x:                |
+  | 6.6.9   | :heavy_check_mark: | :heavy_check_mark: | :x:                |
+  | 6.7.0   | :heavy_check_mark: | :heavy_check_mark: | :x:                |
+  | 6.7.1   | :heavy_check_mark: | :heavy_check_mark: | :x:                |
+  | 6.7.2   | :heavy_check_mark: | :heavy_check_mark: | :x:                |
+  | 6.7.7   | :heavy_check_mark: | :heavy_check_mark: | :x:                |
   
 - [x] 腾讯财经(qq)  
   只能查询行情，不可以交易，[详情跳转](https://github.com/openctp/openctp/blob/master/ctp2QQ/readme.md)
@@ -121,7 +126,12 @@
   | 6.3.19  | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
   | 6.5.1   | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
   | 6.6.1   | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
-  | 6.6.7   | :x:                | :heavy_check_mark: | :x:                |
+  | 6.6.7   | :heavy_check_mark: | :heavy_check_mark: | :x:                |
+  | 6.6.9   | :heavy_check_mark: | :heavy_check_mark: | :x:                |
+  | 6.7.0   | :heavy_check_mark: | :heavy_check_mark: | :x:                |
+  | 6.7.1   | :heavy_check_mark: | :heavy_check_mark: | :x:                |
+  | 6.7.2   | :heavy_check_mark: | :heavy_check_mark: | :x:                |
+  | 6.7.7   | :heavy_check_mark: | :heavy_check_mark: | :x:                |
 
 - [ ] 易盛
 - [ ] 易达
