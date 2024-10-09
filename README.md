@@ -102,7 +102,7 @@
   | 6.6.1   | :x:     | :heavy_check_mark: | :x:       |
    
 - [x] 新浪财经(sina)  
-  只能查询行情，不可以交易，[详情跳转](https://github.com/openctp/openctp/blob/master/ctp2Sina/readme.md)
+  只能查询行情，不可以交易，[详情跳转](https://github.com/openctp/openctp/blob/master/ctp2Sina/readme.md) [构建仓库](https://github.com/Jedore/ctp2sina)
 
   | version | win x86            | win x64            | linux x64          | 
   |---------|--------------------|--------------------|--------------------|
@@ -118,7 +118,7 @@
   | 6.7.7   | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
   
 - [x] 腾讯财经(qq)  
-  只能查询行情，不可以交易，[详情跳转](https://github.com/openctp/openctp/blob/master/ctp2QQ/readme.md)
+  只能查询行情，不可以交易，[详情跳转](https://github.com/openctp/openctp/blob/master/ctp2QQ/readme.md) [构建仓库](https://github.com/Jedore/ctp2qq)
 
   | version | win x86            | win x64            | linux x64          | 
   |---------|--------------------|--------------------|--------------------|
