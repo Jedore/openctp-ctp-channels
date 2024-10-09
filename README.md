@@ -45,15 +45,17 @@
   切换通道 **tts** 成功后，即可使用 openctp-ctp
   库连接 [TTS 7x24环境](http://openctp.cn/report/openctp%A3%A8TTS%A3%A97x24%BB%B7%BE%B3process%BD%BB%D2%D7.html)
 
+**更多示例参见 [ctp.examples](https://github.com/Jedore/ctp.examples)**
+
 ## 支持通道
 
-- [x] openctp TTS(tts/tts-s) 
-  
+- [x] openctp TTS(tts/tts-s)
+
   [详情跳转1](https://github.com/openctp/openctp?tab=readme-ov-file#openctp%E6%A8%A1%E6%8B%9F%E7%8E%AF%E5%A2%83)
   [详情跳转2](https://github.com/openctp/openctp/tree/master/ctp2TTS)
-   
+
   TTS仿真环境没有提供行情服务，需要连接实盘行情(连接实盘行情不需要替换dll/so), 因此多了一个 `tts-s` 通道
-  
+
   `tts` 通道用于连接 TTS 7x24 环境； `tts-s` 通道用于连接 TTS 仿真环境
 
   | version | win x86            | win x64            | linux x64          | 
@@ -69,9 +71,9 @@
   | 6.7.2   | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
 
 - [x] 华鑫证券奇点股票(tora)
-  
+
   [详情跳转](https://github.com/openctp/openctp/tree/master/ctp2STP)
-  
+
   | version | win x86            | win x64            | linux x64          | 
   |---------|--------------------|--------------------|--------------------|
   | 6.3.15  | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
@@ -81,7 +83,7 @@
   | 6.6.7   | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
   | 6.6.9   | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
 
-- [x] 东方财富EMT(emt) 
+- [x] 东方财富EMT(emt)
 
   [详情跳转](https://github.com/openctp/openctp/tree/master/ctp2EMT)
 
@@ -94,13 +96,13 @@
   | 6.6.7   | :heavy_check_mark: | :x:       |
 
 - [x] 中泰证券XTP(xtp)
-  
+
   [详情跳转](https://github.com/openctp/openctp/tree/master/ctp2XTP)
 
   | version | win x86 | win x64            | linux x64 | 
   |---------|---------|--------------------|-----------|
   | 6.6.1   | :x:     | :heavy_check_mark: | :x:       |
-   
+
 - [x] 新浪财经(sina)  
   只能查询行情，不可以交易，[详情跳转](https://github.com/openctp/openctp/blob/master/ctp2Sina/readme.md) [构建仓库](https://github.com/Jedore/ctp2sina)
 
@@ -116,7 +118,7 @@
   | 6.7.1   | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
   | 6.7.2   | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
   | 6.7.7   | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
-  
+
 - [x] 腾讯财经(qq)  
   只能查询行情，不可以交易，[详情跳转](https://github.com/openctp/openctp/blob/master/ctp2QQ/readme.md) [构建仓库](https://github.com/Jedore/ctp2qq)
 
