@@ -27,7 +27,16 @@
   ```
 - 展示所有通道
   ```shell
-  $ openctp-channels show 
+  $ openctp-channels show
+  Support channels:
+        ctp - 上期技术CTP柜台
+        tts - openctp TTS柜台 7x24环境
+        tts-s - openctp TTS柜台 仿真环境(接实盘行情)
+        emt - 东方财富EMT柜台
+        xtp - 中泰证券XTP柜台
+        tora - 华鑫证券奇点股票柜台
+        qq - 腾讯财经(只有行情)
+        sina - 新浪财经(只有行情)
   ```
 - 展示当前通道
   ```shell
