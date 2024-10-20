@@ -146,6 +146,7 @@ class Channel(abc.ABC):
         rsp = requests.get(self._platform_url)
         if 404 == rsp.status_code:
             print(f'Warning: Channel {self._channel} don\'t support  {self._ctp_version} on {self._platform}!')
+            print("\tRefer https://github.com/Jedore/openctp-ctp-channels#%E6%94%AF%E6%8C%81%E9%80%9A%E9%81%93 https://ctp-channels.jedore.top")
             exit(0)
         elif 200 != rsp.status_code:
             raise Exception(f'Parse libs failed: {rsp.status_code} {rsp.text}')

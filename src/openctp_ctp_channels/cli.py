@@ -35,6 +35,7 @@ def switch(channel):
         channel = channels.ToraChannel()
     else:
         print("Unsupported channel!")
+        print("\tRefer https://github.com/Jedore/openctp-ctp-channels#%E6%94%AF%E6%8C%81%E9%80%9A%E9%81%93")
         return
 
     channel.switch()
