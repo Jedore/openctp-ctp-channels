@@ -76,6 +76,10 @@
   | 6.7.0   | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
   | 6.7.1   | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
   | 6.7.2   | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
+  | 6.7.7   | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
+  | 6.7.8   | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
+  | 6.7.9   | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
+  | 6.7.10  | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
 
 - [x] 华鑫证券奇点股票(tora)
 
