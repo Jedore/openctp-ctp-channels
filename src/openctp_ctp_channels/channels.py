@@ -102,7 +102,7 @@ class Channel(abc.ABC):
                 raise Exception("Unsupported windows arch!")
 
         elif sys.platform.startswith('linux'):
-            platform = 'linux64'
+            platform = 'lin64'
         else:
             raise Exception("Unsupported platform:", sys.platform)
 
@@ -158,7 +158,7 @@ class Channel(abc.ABC):
 
             if self._platform.startswith('win'):
                 ret = re.match(r'^.*>(.+\.dll)</a> +(\w+)$', line)
-            elif self._platform.startswith('linux'):
+            elif self._platform.startswith('lin64'):
                 ret = re.match(r'^.*>(.+\.so)</a> +(\w+)$', line)
             elif self._platform.startswith('darwin'):
                 # todo download darwin libs
