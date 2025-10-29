@@ -126,7 +126,10 @@ class Channel(abc.ABC):
         file = self._channel_dir / name
         if file.exists():
             # print('Already downloaded:', name)
-            return
+            with open(file, 'rb') as f:
+                old_md5 = md5(f.read()).hexdigest()
+            if old_md5 == md5_string:
+                return
 
         url = self._platform_url + name
         # print('Downloading', name)
@@ -450,6 +453,7 @@ class ToraChannel(Channel):
 
 
 if __name__ == '__main__':
-    # c = TTSChannel()
-    # c.switch()
+    c = TTSChannel()
+    # print(c.current_channel())
+    c.switch()
     pass

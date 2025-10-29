@@ -7,7 +7,7 @@
     <a href="#"><img src="https://flat.badgen.net/badge/python/>=3.7/blue" /></a>
     <a href="#" ><img src="https://flat.badgen.net/badge/license/BSD-3/blue?" /></a>
     <a href="https://pypi.org/project/openctp-ctp-channels/" >
-      <img src="https://flat.badgen.net/badge/pypi/v0.1.8/blue?" />
+      <img src="https://flat.badgen.net/badge/pypi/v0.1.9/blue?" />
     </a>
 
 </div>
