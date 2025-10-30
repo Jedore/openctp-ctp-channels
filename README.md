@@ -7,7 +7,10 @@
     <a href="#"><img src="https://flat.badgen.net/badge/python/>=3.7/blue" /></a>
     <a href="#" ><img src="https://flat.badgen.net/badge/license/BSD-3/blue?" /></a>
     <a href="https://pypi.org/project/openctp-ctp-channels/" >
-      <img src="https://flat.badgen.net/badge/pypi/v0.1.9/blue?" />
+      <img src="https://flat.badgen.net/badge/pypi/v0.2.0/blue?" />
+    </a>
+    <a href="https://pepy.tech/projects/openctp-ctp-channels">
+      <img src="https://static.pepy.tech/personalized-badge/openctp-ctp-channels?period=total&units=INTERNATIONAL_SYSTEM&left_color=BLACK&right_color=BRIGHTGREEN&left_text=downloads" alt="PyPI Downloads">
     </a>
 
 </div>
@@ -30,6 +33,7 @@
   $ openctp-channels show
   Support channels:
         ctp - 上期技术CTP柜台
+        ctp-cp - 上期技术CTP柜台(评测版)
         tts - openctp TTS柜台 7x24环境
         tts-s - openctp TTS柜台 仿真环境(接实盘行情)
         emt - 东方财富EMT柜台
@@ -56,6 +60,21 @@
 **更多示例参见 [ctp.examples](https://github.com/Jedore/ctp.examples)**
 
 ## 支持通道
+
+- [x] 上期技术CTP柜台评测版(ctp-cp)
+
+| version | win x86            | win x64            | linux x64          | 
+|---------|--------------------|--------------------|--------------------|
+| 6.3.19  | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
+| 6.5.1   | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
+| 6.6.1   | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
+| 6.6.7   | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
+| 6.6.9   | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
+| 6.7.0   | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
+| 6.7.2   | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
+| 6.7.7   | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
+| 6.7.8   | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
+| 6.7.10  | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
 
 - [x] openctp TTS(tts/tts-s)
 

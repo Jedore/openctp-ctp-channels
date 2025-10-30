@@ -23,6 +23,8 @@ def switch(channel):
         channel = channels.TTSSimuChannel()
     elif 'ctp' == channel:
         channel = channels.CTPChannel()
+    elif 'ctp-cp' == channel:
+        channel = channels.CTPCPChannel()
     elif 'qq' == channel:
         channel = channels.QQChannel()
     elif 'sina' == channel:

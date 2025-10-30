@@ -12,6 +12,7 @@ import requests
 
 CHANNELS = {
     'ctp': '上期技术CTP柜台',
+    'ctp-cp': '上期技术CTP柜台(评测版)',
     'tts': 'openctp TTS柜台 7x24环境',
     'tts-s': 'openctp TTS柜台 仿真环境(接实盘行情)',
     'emt': '东方财富EMT柜台',
@@ -350,6 +351,12 @@ class CTPChannel(Channel):
         print(f'Switch to [ {self._channel} ]')
         self._copy_libs(del_old=del_old)
         print('Succeeded!')
+
+
+class CTPCPChannel(Channel):
+
+    def __init__(self):
+        super().__init__('ctp-cp')
 
 
 class TTSChannel(Channel):
