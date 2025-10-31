@@ -63,18 +63,18 @@
 
 - [x] 上期技术CTP柜台评测版(ctp-cp)
 
-| version | win x86            | win x64            | linux x64          | 
-|---------|--------------------|--------------------|--------------------|
-| 6.3.19  | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
-| 6.5.1   | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
-| 6.6.1   | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
-| 6.6.7   | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
-| 6.6.9   | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
-| 6.7.0   | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
-| 6.7.2   | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
-| 6.7.7   | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
-| 6.7.8   | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
-| 6.7.10  | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
+  | version | win x86            | win x64            | linux x64          | 
+  |---------|--------------------|--------------------|--------------------|
+  | 6.3.19  | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
+  | 6.5.1   | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
+  | 6.6.1   | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
+  | 6.6.7   | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
+  | 6.6.9   | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
+  | 6.7.0   | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
+  | 6.7.2   | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
+  | 6.7.7   | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
+  | 6.7.8   | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
+  | 6.7.10  | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
 
 - [x] openctp TTS(tts/tts-s)
 
