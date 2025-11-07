@@ -75,6 +75,7 @@
   | 6.7.7   | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
   | 6.7.8   | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
   | 6.7.10  | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
+  | 6.7.11  | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
 
 - [x] openctp TTS(tts/tts-s)
 
